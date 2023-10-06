@@ -9,8 +9,10 @@ DeliDeV のデータベース設計（Ver.2.0.0：2023/10/05）
 title: "タイトル"
 ---
 erDiagram
-    buyers ||--|{ reviews : ""
-    buyers ||--o{ orders : ""
+    users ||--|{ reviews : ""
+    users ||--o{ orders : ""
+    users ||--o{ agents : ""
+
 
     agents ||--|{ reviews : ""
     agents ||--o{ shifts : ""
@@ -20,7 +22,7 @@ erDiagram
 
     deliverys ||--|{ delivery_status : ""
 
-    buyers {
+    users {
       varchar id PK "ID"
       varchar firebase_uid "firebase uid"
       varchar username "ユーザー名"
@@ -37,19 +39,25 @@ erDiagram
 
     agents {
       varchar id PK "ID"
-      varchar firebase_uid "firebase uid"
-      varchar username "ユーザー名"
-      varchar email "メールアドレス"
-      vatchar postal_code "郵便番号"
-      varchar address "住所"
+      varchar user_id FK "ユーザーID"
       timestamp created_at "作成日時"
       timestamp updated_at "更新日時"
       timestamp deleted_at "削除日時"
     }
 
+    vehicles {
+      varchar id PK "ID"
+      varchar name "車両名"
+    }
+
+    agent_vehicle {
+      varchar agent_id FK "代理人ID"
+      varchar vehicle_id FK "車両ID"
+    }
+
     orders {
       varchar id PK "ID"
-      varchar buyer_id FK "購入者ID"
+      varchar user_id FK "ユーザーID"
       datetime delivery_time "配送希望時間"
       timestamp created_at "作成日時"
       timestamp updated_at "更新日時"
@@ -58,7 +66,7 @@ erDiagram
 
     reviews {
       varchar id PK "ID"
-      varchar buyer_id FK "購入者ID"
+      varchar user_id FK "ユーザーID"
       varchar agent_id FK "代理人ID"
       number review "レビュー値"
       text comment "コメント"
