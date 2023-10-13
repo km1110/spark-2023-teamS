@@ -224,10 +224,25 @@ components:
       type: object
       properties:
         id:
-            type: string
-            format: uuid
-            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        user_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        vehicle:
+          type: object
+          properties:
+            vehicle_id:
+              type: string
+              format: uuid
+              example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+            name:
+              type: string
+              format: uuid
+              example: "軽車両"
+      
     
     ShiftResponse:
       type: object
