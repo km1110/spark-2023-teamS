@@ -17,6 +17,9 @@ erDiagram
     agents ||--|{ reviews : ""
     agents ||--o{ shifts : ""
     agents ||--o{ deliverys : ""
+    agents ||--|{ agent_vehicle : ""
+
+    vehicles ||--|{ agent_vehicle : ""
 
     orders ||--|{ deliverys : ""
 
