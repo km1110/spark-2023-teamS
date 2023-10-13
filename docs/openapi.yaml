@@ -135,7 +135,7 @@ paths:
                   $ref: '#/components/schemas/DeliveryResponse'
     post:
       tags:
-        - "agent"
+        - "delivery"
       summary: Create Delivery
       description: "利用者が配達依頼を作成する場合に使用"
       requestBody:
@@ -150,7 +150,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShiftResponse'
+                $ref: '#/components/schemas/DeliveryResponse'
+    patch:
+      tags:
+        - "delivery"
+      summary: update Delivery
+      description: "配送ステータスを更新するために使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryRequest'
+      responses:
+        '200':
+          description: "hogehoge"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryResponse'
+
 
 components:
   schemas:
@@ -286,7 +305,49 @@ components:
 
     DeliveryRequest:
       type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        date:
+          type: string
+          format: date-time
+          example: "2023-10-05T21:00:00.000Z"
+        
     
     DeliveryResponse:
       type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        order_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        delivery_status_id:
+          type: integer
+          format: int64
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: "2023-10-05T21:00:00.000Z"
     
+    UpdateDeliveryRequest:
+      type: object
+      properties:
+        delivery_status_id:
+          type: integer
+          format: int64
+          example: 2
