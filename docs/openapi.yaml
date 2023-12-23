@@ -1,0 +1,353 @@
+openapi: "3.0.3"
+
+info:
+  title: "DeliDeV API"
+  description: "サンプルとして作成したAPIです"
+  version: "1.0.0"
+
+servers:
+  - url: "http://localhost:3000"
+    description: "ローカル環境"
+  - url: "http://sample.com"
+    description: "本番環境"
+
+tags:
+  - name: "buyer"
+    description: "購入者側の操作"
+  - name: "agent"
+    description: "代理人側の操作"
+  - name: "delivery"
+
+paths:
+  /buyers:
+    get:
+      tags:
+        - "buyer"
+      summary: "購入者のログイン"
+      description: "購入者がログインする場合に使用"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerResponse' 
+    post:
+      tags:
+        - "buyer"
+      summary: "購入者の登録"
+      description: "購入者が登録をする場合に使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyerRequest'
+      responses:
+        '200':
+          description: "購入者が正常に登録された場合のレスポンス"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerResponse'
+
+  /agents:
+    get:
+      tags:
+        - "agent"
+      summary: "代理人のログイン"
+      description: "代理人がログインする場合に使用"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse' 
+    post:
+      tags:
+        - "agent"
+      summary: "代理人の登録"
+      description: "代理人が登録をする場合に使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequest'
+      responses:
+        '200':
+          description: "代理人が正常に登録された場合のレスポンス"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+  
+  /agents/shifts:
+    get:
+      tags:
+        - "agent"
+      summary: "代理人のシフト取得"
+      description: "代理人のシフト一覧を取得する場合に使用"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftResponse'
+    
+    post:
+      tags:
+        - "agent"
+      summary: "代理人のシフト登録"
+      description: "代理人のシフト登録をする場合に使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShiftRequest'
+      responses:
+        '200':
+          description: "代理人が正常に登録された場合のレスポンス"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftResponse'
+
+  /deliveries:
+    get:
+      tags:
+        - "delivery"
+      summary: Get Delivery List
+      description: "配達配達情報の一覧を取得する処理"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryResponse'
+    post:
+      tags:
+        - "delivery"
+      summary: Create Delivery
+      description: "利用者が配達依頼を作成する場合に使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRequest'
+      responses:
+        '200':
+          description: "hogehoge"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryResponse'
+    patch:
+      tags:
+        - "delivery"
+      summary: update Delivery
+      description: "配送ステータスを更新するために使用"
+      requestBody:
+        required: true
+        content:  
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryRequest'
+      responses:
+        '200':
+          description: "hogehoge"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryResponse'
+
+
+components:
+  schemas:
+    BuyerRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "hoge"
+        email:
+          type: string
+          example: "hoge@example.com"
+        postal_code:
+          type: string
+          example: "8208502"
+        prefecture:
+          type: string
+          example: "福岡県"
+        city:
+          type: string
+          example: "飯塚市"
+        address1:
+          type: string
+          example: "川津680-4"
+        address2:
+          type: string
+          example: "401"
+      
+    BuyerResponse:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+          firebase_uid:
+            type: string
+            format: uuid
+            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+          username:
+            type: string
+            example: "hoge"
+          email:
+            type: string
+            example: "hoge@example.com"
+          postal_code:
+            type: string
+            example: "8208502"
+          prefecture:
+            type: string
+            example: "福岡県"
+          city:
+            type: string
+            example: "飯塚市"
+          address1:
+            type: string
+            example: "川津680-4"
+          address2:
+            type: string
+            example: "401"
+
+    
+    AgentRequest:
+      type: object
+      properties:
+        vehicle:
+          type: string
+          example: "hogehoge"
+    
+    AgentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        user_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        vehicle:
+          type: object
+          properties:
+            vehicle_id:
+              type: string
+              format: uuid
+              example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+            name:
+              type: string
+              format: uuid
+              example: "軽車両"
+      
+    
+    ShiftResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        review_average:
+          type: number
+          format: float
+          example: 3.5
+        start_time:
+          type: string
+          format: date-time
+          example: "2023-10-05T11:03:18.364Z"
+        end_time:
+          type: string
+          format: date-time
+          example: "2023-10-05T11:03:18.364Z"
+    
+    ShiftRequest:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        start_time:
+          type: string
+          format: date-time
+          example: "2023-10-05T11:03:18.364Z"
+        end_time:
+          type: string
+          format: date-time
+          example: "2023-10-05T11:03:18.364Z"
+
+    DeliveryRequest:
+      type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        date:
+          type: string
+          format: date-time
+          example: "2023-10-05T21:00:00.000Z"
+        
+    
+    DeliveryResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        order_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        delivery_status_id:
+          type: integer
+          format: int64
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: "2023-10-05T21:00:00.000Z"
+    
+    UpdateDeliveryRequest:
+      type: object
+      properties:
+        delivery_status_id:
+          type: integer
+          format: int64
+          example: 2
