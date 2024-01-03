@@ -212,7 +212,7 @@ components:
   # schemas
   #-------------------------------
   schemas:
-    BuyerModel:
+    Buyer:
       description: "buyer model"
       required:
         - id
@@ -255,8 +255,7 @@ components:
             address2:
               type: string
               example: "401"
-
-    AgentModel:
+    Agent:
       description: "agent model"
       required:
         - id
@@ -288,8 +287,7 @@ components:
               type: string
               description: "配達員の車両名"
               example: "軽車両"
-    
-    OrderModel:
+    Order:
       description: "order model"
       required:
         - id
@@ -354,9 +352,8 @@ components:
               example: "hoge680-4"
             address2:
               type: string
-              example: "401"
-            
-    DeliveryModel:
+              example: "401"     
+    Delivery:
       description: "delivery model"
       required:
         - id
@@ -432,7 +429,6 @@ components:
             address2:
               type: string
               example: "401"
-
     ShiftModel:
       description: "shift model"
       required:
@@ -460,8 +456,7 @@ components:
           type: string
           description: "シフト終了時間"
           example: "2020-09-12 12:00"
-
-    TimeStampsModel:
+    TimeStamps:
       description: TimeStamps Model
       required:
         - createAt
@@ -477,8 +472,7 @@ components:
           type: string
           format: date-time
           example: 2020-09-12T01:41:23Z
-
-    ErrorModel:
+    Error:
       description: Response Error Model.
       required:
         - code
@@ -509,28 +503,28 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BuyerModel'
+            $ref: '#/components/schemas/Buyer'
     AgentRequest:
       description: "agent request"
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AgentModel'
+            $ref: '#/components/schemas/Agent'
     OrderRequest:
       description: "order request"
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OrderModel'
+            $ref: '#/components/schemas/Order'
     DeliveryRequest:
       description: "delivery request"
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DeliveryModel'
+            $ref: '#/components/schemas/Delivery'
 
 
   #-------------------------------
@@ -543,16 +537,16 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/BuyerModel'
-              - $ref: '#/components/schemas/TimeStampsModel'
+              - $ref: '#/components/schemas/Buyer'
+              - $ref: '#/components/schemas/TimeStamps'
     GetAgentReponse:
       description: Got Agent.
       content:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/AgentModel'
-              - $ref: '#/components/schemas/TimeStampsModel'
+              - $ref: '#/components/schemas/Agent'
+              - $ref: '#/components/schemas/TimeStamps'
     GetOrderReponse:
       description: Got Orders.
       content:
@@ -561,8 +555,8 @@ components:
             type: array
             items:
               allOf:
-                - $ref: '#/components/schemas/OrderModel'
-                - $ref: '#/components/schemas/TimeStampsModel'
+                - $ref: '#/components/schemas/Order'
+                - $ref: '#/components/schemas/TimeStamps'
     GetDeliveriesReponse:
       description: Got Deliveries.
       content:
@@ -571,8 +565,8 @@ components:
             type: array
             items:
               allOf:
-                - $ref: '#/components/schemas/DeliveryModel'
-                - $ref: '#/components/schemas/TimeStampsModel'
+                - $ref: '#/components/schemas/Delivery'
+                - $ref: '#/components/schemas/TimeStamps'
   
     BadRequestResponse:
       description: | 
@@ -581,7 +575,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/ErrorModel'
+              - $ref: '#/components/schemas/Error'
             properties:
               code:
                 example: 400
@@ -595,7 +589,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/ErrorModel'
+              - $ref: '#/components/schemas/Error'
             properties:
               code:
                 example: 401
@@ -609,7 +603,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/ErrorModel'
+              - $ref: '#/components/schemas/Error'
             properties:
               code:
                 example: 403
@@ -623,7 +617,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/ErrorModel'
+              - $ref: '#/components/schemas/Error'
             properties:
               code:
                 example: 404
@@ -637,7 +631,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/ErrorModel'
+              - $ref: '#/components/schemas/Error'
             properties:
               code:
                 example: 409
@@ -650,7 +644,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorModel'
+            $ref: '#/components/schemas/Error'
 
   securitySchemes:
     bearerAuth:
