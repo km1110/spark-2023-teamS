@@ -30,5 +30,8 @@
 [![DeliDev](https://github.com/km1110/spark-2023-teamS/assets/83264443/e4c080e4-9b62-4360-bd9a-50676fc3974f)](https://www.youtube.com/watch?v=vyG6mZTVlj8)
 
 ### 利用者側
+![buyer_select_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/5a15a5cf-b776-40c4-b1e8-1f36c37f5eac)
+![buyer_decide_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/b94cb5e8-c992-468c-ac5a-932994f13118)
 
 ### 配達人側
+![buyer_select_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/5052e051-8dc4-4df2-bcf1-65f8bd837299)
