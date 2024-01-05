@@ -34,4 +34,5 @@
 ![buyer_decide_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/b94cb5e8-c992-468c-ac5a-932994f13118)
 
 ### 配達人側
-![buyer_select_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/5052e051-8dc4-4df2-bcf1-65f8bd837299)
+![agent_schedule_page](https://github.com/km1110/spark-2023-teamS/assets/83264443/a4ff59af-e9bf-4eec-a87d-34add4827345)
+
