@@ -8,247 +8,272 @@ info:
 servers:
   - url: "http://localhost:3000"
     description: "ローカル環境"
-  - url: "http://sample.com"
+  - url: "https://api.example.com/api/v1"
     description: "本番環境"
 
 tags:
-  - name: "buyer"
-    description: "購入者側の操作"
-  - name: "agent"
-    description: "代理人側の操作"
-  - name: "delivery"
+  - name: "User"
+    description: "User"
+  - name: "Order"
+    description: "Delivery Order"
+  - name: "Delivery"
+    description: "Delivering packages"
+  - name: "Shift"
+    description: "Shift"
+  
 
 paths:
-  /buyers:
+  /users/buyers/me:
     get:
       tags:
-        - "buyer"
-      summary: "購入者のログイン"
-      description: "購入者がログインする場合に使用"
+        - "User"
+      summary: "GetUserByMine"
+      description: ""
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BuyerResponse' 
-    post:
-      tags:
-        - "buyer"
-      summary: "購入者の登録"
-      description: "購入者が登録をする場合に使用"
-      requestBody:
-        required: true
-        content:  
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BuyerRequest'
-      responses:
-        '200':
-          description: "購入者が正常に登録された場合のレスポンス"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BuyerResponse'
-
-  /agents:
+          $ref: '#/components/responses/GetBuyerReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/UnauthorizedResponse'
+  /users/agents/me:
     get:
       tags:
-        - "agent"
-      summary: "代理人のログイン"
-      description: "代理人がログインする場合に使用"
+        - "User"
+      summary: "GetUserByMine"
+      description: ""
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AgentResponse' 
+          $ref: '#/components/responses/GetAgentReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/UnauthorizedResponse'
+  /users/buyers:
     post:
       tags:
-        - "agent"
-      summary: "代理人の登録"
-      description: "代理人が登録をする場合に使用"
+        - "User"
+      summary: "CreateUser"
+      description: ""
       requestBody:
-        required: true
-        content:  
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AgentRequest'
+        $ref: '#/components/requestBodies/BuyerRequest'
       responses:
         '200':
-          description: "代理人が正常に登録された場合のレスポンス"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AgentResponse'
-  
-  /agents/shifts:
+          $ref: '#/components/responses/GetBuyerReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/UnauthorizedResponse'
+  /users/agents:
+    post:
+      tags:
+        - "User"
+      summary: "CreateUser"
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/AgentRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAgentReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /users/{id}:
+    patch:
+      tags:
+        - "User"
+      summary: "UpdateUser"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ユーザーID"
+          required: true
+          schema:
+            type: string
+            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+      requestBody:
+        $ref: '#/components/requestBodies/BuyerRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetBuyerReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /orders:
     get:
       tags:
-        - "agent"
-      summary: "代理人のシフト取得"
-      description: "代理人のシフト一覧を取得する場合に使用"
+        - "Order"
+      summary: "GetOrders"
+      description: ""
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ShiftResponse'
-    
+          $ref: '#/components/responses/GetOrderReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
     post:
       tags:
-        - "agent"
-      summary: "代理人のシフト登録"
-      description: "代理人のシフト登録をする場合に使用"
+        - "Order"
+      summary: "CreateOrder"
+      description: ""
       requestBody:
-        required: true
-        content:  
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ShiftRequest'
+        $ref: '#/components/requestBodies/OrderRequest'
       responses:
         '200':
-          description: "代理人が正常に登録された場合のレスポンス"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShiftResponse'
-
+          $ref: '#/components/responses/GetOrderReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /orders/{id}:
+    patch:
+      tags:
+        - "Order"
+      summary: "UpdateOrder"
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "注文ID"
+          required: true
+          schema:
+            type: string
+            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+      requestBody:
+        $ref: '#/components/requestBodies/OrderRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetOrderReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
   /deliveries:
     get:
       tags:
-        - "delivery"
-      summary: Get Delivery List
-      description: "配達配達情報の一覧を取得する処理"
+        - "Delivery"
+      summary: "GetDeliveries"
+      description: ""
+      parameters:
+        - name: "status"
+          in: "query"
+          description: "配達ステータス"
+          required: false
+          schema:
+            type: string
+            example: "配達中"
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DeliveryResponse'
+          $ref: '#/components/responses/GetDeliveriesReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
     post:
       tags:
-        - "delivery"
-      summary: Create Delivery
-      description: "利用者が配達依頼を作成する場合に使用"
+        - "Delivery"
+      summary: "CreateDelivery"
+      description: ""
       requestBody:
-        required: true
-        content:  
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeliveryRequest'
+        $ref: '#/components/requestBodies/DeliveryRequest'
       responses:
         '200':
-          description: "hogehoge"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeliveryResponse'
-    patch:
-      tags:
-        - "delivery"
-      summary: update Delivery
-      description: "配送ステータスを更新するために使用"
-      requestBody:
-        required: true
-        content:  
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateDeliveryRequest'
-      responses:
-        '200':
-          description: "hogehoge"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeliveryResponse'
-
-
+          $ref: '#/components/responses/GetDeliveriesReponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'  
 components:
+  #-------------------------------
+  # schemas
+  #-------------------------------
   schemas:
-    BuyerRequest:
-      type: object
-      properties:
-        username:
-          type: string
-          example: "hoge"
-        email:
-          type: string
-          example: "hoge@example.com"
-        postal_code:
-          type: string
-          example: "8208502"
-        prefecture:
-          type: string
-          example: "福岡県"
-        city:
-          type: string
-          example: "飯塚市"
-        address1:
-          type: string
-          example: "川津680-4"
-        address2:
-          type: string
-          example: "401"
-      
-    BuyerResponse:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-          firebase_uid:
-            type: string
-            format: uuid
-            example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-          username:
-            type: string
-            example: "hoge"
-          email:
-            type: string
-            example: "hoge@example.com"
-          postal_code:
-            type: string
-            example: "8208502"
-          prefecture:
-            type: string
-            example: "福岡県"
-          city:
-            type: string
-            example: "飯塚市"
-          address1:
-            type: string
-            example: "川津680-4"
-          address2:
-            type: string
-            example: "401"
-
-    
-    AgentRequest:
-      type: object
-      properties:
-        vehicle:
-          type: string
-          example: "hogehoge"
-    
-    AgentResponse:
+    Buyer:
+      description: "buyer model"
+      required:
+        - id
+        - name
+        - email
+        - postal_code
+        - prefecture
+        - city
+        - address1
+        - address2
       type: object
       properties:
         id:
           type: string
           format: uuid
+          description: "購入者ID"
           example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+          readOnly: true
+        name:
+          type: string
+          description: "購入者名"
+        email:
+          type: string
+          description: "購入者メールアドレス"
+        address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+              example: "1234567"
+            prefecture:
+              type: string
+              example: "東京都"
+            city:
+              type: string
+              example: "hoge区"
+            address1:
+              type: string
+              example: "hoge680-4"
+            address2:
+              type: string
+              example: "401"
+    Agent:
+      description: "agent model"
+      required:
+        - id
+        - name
+        - email
+        - vehicle
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "配達員ID"
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+          readOnly: true
         user_id:
           type: string
           format: uuid
+          description: "配達員のユーザーID"
           example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
         vehicle:
           type: object
@@ -256,98 +281,373 @@ components:
             vehicle_id:
               type: string
               format: uuid
+              description: "配達員の車両ID"
               example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
             name:
               type: string
-              format: uuid
+              description: "配達員の車両名"
               example: "軽車両"
-      
-    
-    ShiftResponse:
+    Order:
+      description: "order model"
+      required:
+        - id
+        - buyer_id
+        - pickup_address
+        - delivery_date
+        - delivery_time
+        - delivery_address
       type: object
       properties:
         id:
           type: string
           format: uuid
+          description: "注文ID"
           example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        agent_id:
+          readOnly: true
+        buyer_id:
           type: string
           format: uuid
+          description: "購入者ID"
           example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        review_average:
-          type: number
-          format: float
-          example: 3.5
-        start_time:
+        pickup_address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+              example: "1234567"
+            prefecture:
+              type: string
+              example: "東京都"
+            city:
+              type: string
+              example: "hoge区"
+            address1:
+              type: string
+              example: "hoge680-4"
+            address2:
+              type: string
+              example: "401"
+        delivery_date:
           type: string
-          format: date-time
-          example: "2023-10-05T11:03:18.364Z"
-        end_time:
+          description: "配達日"
+          example: "2020-09-12"
+        delivery_time:
           type: string
-          format: date-time
-          example: "2023-10-05T11:03:18.364Z"
-    
-    ShiftRequest:
+          description: "配達時間"
+          example: "12:00"
+        delivery_address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+              example: "1234567"
+            prefecture:
+              type: string
+              example: "東京都"
+            city:
+              type: string
+              example: "hoge区"
+            address1:
+              type: string
+              example: "hoge680-4"
+            address2:
+              type: string
+              example: "401"     
+    Delivery:
+      description: "delivery model"
+      required:
+        - id
+        - agent_id
+        - buyer_id
+        - status
+        - delivery_date
+        - delivery_time
+        - delivery_address
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: "配達ID"
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+          readOnly: true
         agent_id:
           type: string
           format: uuid
+          description: "配達員ID"
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        buyer_id:
+          type: string
+          format: uuid
+          description: "購入者ID"
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        status:
+          type: string
+          description: "配達ステータス"
+          example: "配達中"
+        delivery_date:
+          type: string
+          description: "配達日"
+          example: "2020-09-12"
+        delivery_time:
+          type: string
+          description: "配達時間"
+          example: "12:00"
+        pickup_address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+              example: "1234567"
+            prefecture:
+              type: string
+              example: "東京都"
+            city:
+              type: string
+              example: "hoge区"
+            address1:
+              type: string
+              example: "hoge680-4"
+            address2:
+              type: string
+              example: "401"
+        delivery_address:
+          type: object
+          properties:
+            postal_code:
+              type: string
+              example: "1234567"
+            prefecture:
+              type: string
+              example: "東京都"
+            city:
+              type: string
+              example: "hoge区"
+            address1:
+              type: string
+              example: "hoge680-4"
+            address2:
+              type: string
+              example: "401"
+    ShiftModel:
+      description: "shift model"
+      required:
+        - id
+        - agent_id
+        - start_time
+        - end_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "シフトID"
+          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
+        agent_id:
+          type: string
+          format: uuid
+          description: "配達員ID"
           example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
         start_time:
           type: string
-          format: date-time
-          example: "2023-10-05T11:03:18.364Z"
+          description: "シフト開始時間"
+          example: "2020-09-12 12:00"
         end_time:
           type: string
+          description: "シフト終了時間"
+          example: "2020-09-12 12:00"
+    TimeStamps:
+      description: TimeStamps Model
+      required:
+        - createAt
+      type: object
+      properties:
+        createAt:
+          title: Created datetime.
+          type: string
           format: date-time
-          example: "2023-10-05T11:03:18.364Z"
+          example: 2017-07-21T17:32:28Z
+        updateAt:
+          title: Updated datetime.
+          type: string
+          format: date-time
+          example: 2020-09-12T01:41:23Z
+    Error:
+      description: Response Error Model.
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          title: error code
+          type: string
+          example: 500
+        message:
+          title: error message
+          type: string
+          example: Internal Server Error.
+    
+  #-------------------------------
+  # operation parameters
+  #-------------------------------
+    
 
+  #-------------------------------
+  # request body
+  #-------------------------------
+  requestBodies:
+    BuyerRequest:
+      description: "buyer request"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Buyer'
+    AgentRequest:
+      description: "agent request"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Agent'
+    OrderRequest:
+      description: "order request"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
     DeliveryRequest:
-      type: object
-      properties:
-        order_id:
-          type: string
-          format: uuid
-          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        agent_id:
-          type: string
-          format: uuid
-          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        date:
-          type: string
-          format: date-time
-          example: "2023-10-05T21:00:00.000Z"
-        
-    
-    DeliveryResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        order_id:
-          type: string
-          format: uuid
-          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        agent_id:
-          type: string
-          format: uuid
-          example: "DKMYRWJC86TGUdfoYZuNXXm0ZJw2"
-        delivery_status_id:
-          type: integer
-          format: int64
-          example: 1
-        date:
-          type: string
-          format: date-time
-          example: "2023-10-05T21:00:00.000Z"
-    
-    UpdateDeliveryRequest:
-      type: object
-      properties:
-        delivery_status_id:
-          type: integer
-          format: int64
-          example: 2
+      description: "delivery request"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Delivery'
+
+
+  #-------------------------------
+  # response
+  #-------------------------------
+  responses:
+    GetBuyerReponse:
+      description: Got Buyer.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Buyer'
+              - $ref: '#/components/schemas/TimeStamps'
+    GetAgentReponse:
+      description: Got Agent.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Agent'
+              - $ref: '#/components/schemas/TimeStamps'
+    GetOrderReponse:
+      description: Got Orders.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Order'
+                - $ref: '#/components/schemas/TimeStamps'
+    GetDeliveriesReponse:
+      description: Got Deliveries.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/components/schemas/Delivery'
+                - $ref: '#/components/schemas/TimeStamps'
+  
+    BadRequestResponse:
+      description: | 
+        Bad Request.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+            properties:
+              code:
+                example: 400
+              message:
+                example: Bad Request.
+
+    UnauthorizedResponse:
+      description: | 
+        Unauthorized.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+            properties:
+              code:
+                example: 401
+              message:
+                example: Unauthorized.
+
+    ForbiddenResponse:
+      description: | 
+        Forbidden.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+            properties:
+              code:
+                example: 403
+              message:
+                example: Forbidden.
+
+    NotFoundResponse:
+      description: | 
+        Not Found.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+            properties:
+              code:
+                example: 404
+              message:
+                example: Not Found.
+
+    ConflictErrorResponse:
+      description: | 
+        Conflict.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+            properties:
+              code:
+                example: 409
+              message:
+                example: Conflict.
+
+    InternalServerErrorResponse:
+      description: |-
+        Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
