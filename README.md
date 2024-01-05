@@ -27,6 +27,7 @@
 - [DB](/docs/db.md)
 
 ## デモ動画
+[![DeliDev](https://github.com/km1110/spark-2023-teamS/assets/83264443/e4c080e4-9b62-4360-bd9a-50676fc3974f)](https://www.youtube.com/watch?v=vyG6mZTVlj8)
 
 ### 利用者側
 
