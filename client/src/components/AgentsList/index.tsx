@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { Box, Card, Icon, Rating, Typography } from "@mui/material";
+import { Box, Card, Rating, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AgentListProps } from "./types";
 
@@ -11,8 +11,9 @@ export const AgentsList = ({ agentList }: AgentListProps) => {
     router.push("/buyer/request");
   };
 
-  return agentList?.data.map((data, _) => (
+  return agentList?.data.map((data, index) => (
     <Card
+      key={index}
       sx={{
         width: "100%",
         maxWidth: "718px",
@@ -64,10 +65,6 @@ export const AgentsList = ({ agentList }: AgentListProps) => {
             readOnly
             size={"small"}
             sx={{
-              //   width: {
-              //     xs: "50px",
-              //     sm: "100px",
-              //   },
               width: "100px",
             }}
           />
