@@ -72,7 +72,7 @@ export default function signin() {
             noWrap
             sx={{ fontSize: "16px", marginTop: "10px" }}
           >
-            <Link href={"/signup"}>新規登録</Link>
+            <Link href={"/buyer/signup"}>新規登録</Link>
           </Typography>
         </Box>
       </Box>
