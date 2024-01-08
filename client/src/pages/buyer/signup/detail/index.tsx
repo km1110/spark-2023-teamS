@@ -9,11 +9,8 @@ import { useRouter } from "next/router";
 import { deleteUser, getAuth } from "firebase/auth";
 import { app } from "@/lib/firebase";
 
-import { useRecoilValue } from "recoil";
-import { firebaseUserAtom } from "@/atoms/firebaseUserAtom";
-
 export default function signupPage() {
-  const user = useRecoilValue(firebaseUserAtom);
+  const user = getAuth(app).currentUser;
 
   const [signupData, setSignupData] = useState({
     email: user?.email || "",
