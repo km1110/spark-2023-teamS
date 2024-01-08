@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('agent_id')->references('uuid')->on('agents');
 
             $table->date('date');
+            //TODO: 時間をStringで保存するようにする
             $table->dateTime('starts_time');
             $table->dateTime('ends_time');
             $table->timestamps();

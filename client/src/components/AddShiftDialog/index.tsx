@@ -11,7 +11,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 import { AddShiftDialogProps } from "./types";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ja } from "date-fns/locale";
 
@@ -46,6 +46,7 @@ export const AddShiftDialog = ({
             onChange={handleChange}
           />
         </LocalizationProvider>
+        {/* TODO: 時間だけを入力するように変更 */}
         <Typography>開始時間</Typography>
         <TextField
           size="medium"
