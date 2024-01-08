@@ -4,7 +4,11 @@ import { Box, Button, Drawer, Typography } from "@mui/material";
 
 import { DrawerWrapperProps } from "./types";
 
-export const DrawerWrapper = ({ isOpen, onClose }: DrawerWrapperProps) => {
+export const DrawerWrapper = ({
+  isOpen,
+  onClose,
+  handleSignOut,
+}: DrawerWrapperProps) => {
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose}>
       <Box
@@ -23,27 +27,10 @@ export const DrawerWrapper = ({ isOpen, onClose }: DrawerWrapperProps) => {
             marginTop: "10px",
             fontSize: "24px",
           }}
+          onClick={handleSignOut}
         >
-          <Link href={"/buyer/signup"}>登録する</Link>
+          <Link href={"/"}>ログアウト</Link>
         </Button>
-        <Button
-          size="large"
-          variant="outlined"
-          style={{
-            borderColor: "black",
-          }}
-          sx={{
-            color: "black",
-            borderRadius: "4px",
-            marginTop: "10px",
-            marginX: "10px",
-            width: "261px",
-            fontSize: "24px",
-          }}
-        >
-          <Link href={"/buyer/signin"}>ログイン</Link>
-        </Button>
-
         <Typography
           variant="h6"
           noWrap
