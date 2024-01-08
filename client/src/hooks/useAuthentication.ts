@@ -1,8 +1,8 @@
 import { app } from "@/lib/firebase";
-import { useRouter } from "next/router";
+
 import { firebaseUserAtom } from "@/atoms/firebaseUserAtom";
 import { userAtom } from "@/atoms/userAtom";
-import { AxiosProvider, instance } from "@/components/AxiosProvider";
+import { instance } from "@/components/AxiosProvider";
 import {
   ServiceUserResponseType,
   UserSignupFormType,
@@ -20,7 +20,7 @@ import {
 import { useRecoilState } from "recoil";
 import { AxiosResponse } from "axios";
 
-export const useAuthentication = (role: "buyer" | "agent") => {
+export const useAuthentication = (role: "buyer" | "agent" | "") => {
   const [serviceUser, setServiceUser] = useRecoilState(userAtom);
   const [firebaseUser, setFirebaseUser] = useRecoilState(firebaseUserAtom);
   const auth = getAuth(app);
@@ -35,7 +35,6 @@ export const useAuthentication = (role: "buyer" | "agent") => {
       setFirebaseUser(firebaseRes.user || null);
       const serviceRes: AxiosResponse<ServiceUserResponseType> =
         await instance.get(`/sign-in/${role}`);
-      console.log(serviceRes.data);
       if (serviceRes.data) {
         setServiceUser(serviceRes.data);
       }
@@ -84,5 +83,17 @@ export const useAuthentication = (role: "buyer" | "agent") => {
     }
   };
 
-  return { login, signupFirebase, signupService };
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setFirebaseUser(null);
+      setServiceUser(null);
+      return true;
+    } catch (error) {
+      alert("ログアウトに失敗しました");
+      return false;
+    }
+  };
+
+  return { login, signupFirebase, signupService, logout };
 };
