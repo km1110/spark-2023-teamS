@@ -23,7 +23,6 @@ export default function buyerSelectPage() {
   };
 
   const val = useRecoilValue(userAtom);
-  console.log(val);
 
   useEffect(() => {
     const getShiftList = async () => {
@@ -34,10 +33,6 @@ export default function buyerSelectPage() {
     };
     getShiftList();
   }, []);
-
-  // shiftList?.data.map((e, _) => {
-  //   console.log(e["agent_id"]);
-  // });
 
   return (
     <DefaultLayout>
