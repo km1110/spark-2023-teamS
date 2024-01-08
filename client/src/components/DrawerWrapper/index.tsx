@@ -29,7 +29,7 @@ export const DrawerWrapper = ({
           }}
           onClick={handleSignOut}
         >
-          <Link href={"/"}>ログアウト</Link>
+          ログアウト
         </Button>
         <Typography
           variant="h6"

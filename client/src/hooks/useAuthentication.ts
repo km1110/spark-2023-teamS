@@ -10,6 +10,7 @@ import {
 } from "../../src/types/user";
 
 import {
+  Auth,
   createUserWithEmailAndPassword,
   deleteUser,
   getAuth,
@@ -20,9 +21,7 @@ import {
 import { useRecoilState } from "recoil";
 import { AxiosResponse } from "axios";
 
-export const useAuthentication = (role: "buyer" | "agent" | "") => {
-  const [serviceUser, setServiceUser] = useRecoilState(userAtom);
-  const [firebaseUser, setFirebaseUser] = useRecoilState(firebaseUserAtom);
+export const useAuthentication = (role: "buyer" | "agent") => {
   const auth = getAuth(app);
 
   const login = async (email: string, password: string) => {
@@ -32,12 +31,8 @@ export const useAuthentication = (role: "buyer" | "agent" | "") => {
         email,
         password
       );
-      setFirebaseUser(firebaseRes.user || null);
       const serviceRes: AxiosResponse<ServiceUserResponseType> =
         await instance.get(`/sign-in/${role}`);
-      if (serviceRes.data) {
-        setServiceUser(serviceRes.data);
-      }
       return true;
     } catch (error) {
       alert("ログインに失敗しました");
@@ -52,7 +47,6 @@ export const useAuthentication = (role: "buyer" | "agent" | "") => {
         email,
         password
       );
-      setFirebaseUser(firebaseRes.user || null);
       return true;
     } catch (error) {
       alert("登録に失敗しました");
@@ -62,20 +56,9 @@ export const useAuthentication = (role: "buyer" | "agent" | "") => {
 
   const signupService = async (form: UserSignupFormType) => {
     try {
-      const params: UserSignupParamsType = {
-        email: firebaseUser?.email || "",
-        ...form,
-      };
       const res: AxiosResponse<ServiceUserResponseType> = await instance.post(
-        `/sign-up/${role}`,
-        params
+        `/sign-up/${role}`
       );
-      if (!res) {
-        // サービスへの登録が失敗したらFirebaseのアカウントも削除
-        firebaseUser && (await deleteUser(firebaseUser));
-      }
-      setServiceUser(res.data);
-
       return true;
     } catch (error) {
       alert("登録に失敗しました");
@@ -83,11 +66,9 @@ export const useAuthentication = (role: "buyer" | "agent" | "") => {
     }
   };
 
-  const logout = async () => {
+  const logout = async (auth: Auth) => {
     try {
-      await signOut(auth);
-      setFirebaseUser(null);
-      setServiceUser(null);
+      signOut(auth);
       return true;
     } catch (error) {
       alert("ログアウトに失敗しました");
