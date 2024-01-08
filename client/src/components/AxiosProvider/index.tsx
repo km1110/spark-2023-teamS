@@ -1,8 +1,9 @@
-import axios from "axios";
-import { getAuth } from "firebase/auth";
 import React from "react";
-import { app } from "../../lib/firebase";
-import { AxiosProviderProps } from "./types";
+
+import axios from "axios";
+
+import { getAuth } from "firebase/auth";
+import { app } from "@/lib/firebase";
 
 export const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -11,6 +12,7 @@ export const instance = axios.create({
 
 export function AxiosProvider({ children }: { children: React.ReactElement }) {
   const auth = getAuth(app);
+
   const reqestInterceptor = instance.interceptors.request.use(
     async (request) => {
       const token = await auth.currentUser?.getIdToken();
